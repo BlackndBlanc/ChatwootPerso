@@ -22,6 +22,8 @@ services:
     entrypoint: ["sh", "docker/entrypoints/rails.sh"]
     command: ['sh', '-c', 'bundle exec rake db:chatwoot_prepare && bundle exec rails s -p 3000 -b 0.0.0.0']
     restart: always
+    networks:
+      - coolify
 
   sidekiq:
     <<: *base
@@ -31,6 +33,12 @@ services:
       - INSTALLATION_ENV=${INSTALLATION_ENV:-docker}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
 
 volumes:
   storage_data:
