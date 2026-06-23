@@ -1,11 +1,12 @@
 version: '3'
 
+x-base: &base
+  image: ghcr.io/blackndblanc/chatwootperso:sha-b99a350
+  env_file: .env
+  volumes:
+    - storage_data:/app/storage
+
 services:
-  base: &base
-    image: ghcr.io/blackndblanc/chatwootperso:sha-b99a350
-    env_file: .env
-    volumes:
-      - storage_data:/app/storage
 
   rails:
     <<: *base
