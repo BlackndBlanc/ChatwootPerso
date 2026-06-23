@@ -15,9 +15,6 @@ services:
 
   rails:
     <<: *base
-    depends_on:
-      - postgres
-      - redis
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - RAILS_ENV=${RAILS_ENV:-production}
@@ -28,9 +25,6 @@ services:
 
   sidekiq:
     <<: *base
-    depends_on:
-      - postgres
-      - redis
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - RAILS_ENV=${RAILS_ENV:-production}
@@ -38,25 +32,5 @@ services:
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${POSTGRES_DATABASE:-${POSTGRES_DB:-chatwoot}}
-      - POSTGRES_USER=${POSTGRES_USERNAME:-${POSTGRES_USER:-postgres}}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
-
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - redis_data:/data
-
 volumes:
   storage_data:
-  postgres_data:
-  redis_data:
