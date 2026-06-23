@@ -5,6 +5,11 @@ x-base: &base
   env_file: .env
   volumes:
     - storage_data:/app/storage
+  environment:
+    - POSTGRES_DATABASE=${POSTGRES_DATABASE:-${POSTGRES_DB:-chatwoot}}
+    - POSTGRES_USERNAME=${POSTGRES_USERNAME:-${POSTGRES_USER:-postgres}}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+    - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
 
 services:
 
@@ -39,8 +44,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=${POSTGRES_DB:-chatwoot}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_DB=${POSTGRES_DATABASE:-${POSTGRES_DB:-chatwoot}}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-${POSTGRES_USER:-postgres}}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
 
   redis:
