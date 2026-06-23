@@ -130,6 +130,10 @@ class User < ApplicationRecord
     devise_mailer.with(account: Current.account).send(notification, self, *).deliver_later
   end
 
+  def confirmation_required?
+    false
+  end
+
   def set_password_and_uid
     self.uid = email
   end
