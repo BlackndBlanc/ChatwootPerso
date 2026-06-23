@@ -10,8 +10,8 @@ echo "Waiting for postgres to become ready...."
 
 # Let DATABASE_URL env take presedence over individual connection params.
 # This is done to avoid printing the DATABASE_URL in the logs
-$(ruby docker/entrypoints/helpers/pg_database_url.rb)
-PG_READY="pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USERNAME"
+eval "$(ruby docker/entrypoints/helpers/pg_database_url.rb)"
+PG_READY="pg_isready -h ${POSTGRES_HOST:-postgres} -p ${POSTGRES_PORT:-5432} -U ${POSTGRES_USERNAME:-postgres}"
 
 until $PG_READY
 do
