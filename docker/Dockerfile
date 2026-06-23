@@ -148,5 +148,5 @@ COPY --from=pre-builder /app /app
 COPY --from=pre-builder /app/.git_sha /app/.git_sha
 
 WORKDIR /app
-
+RUN chmod +x /app/docker/entrypoints/*.sh
 EXPOSE 3000
